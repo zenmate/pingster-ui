@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table } from 'reactable';
+import { Table, unsafe } from 'reactable';
 import { list, rescan } from './api';
 import './App.css';
 
@@ -16,10 +16,23 @@ class App extends Component {
     this.fetchProjects();
   }
 
+  rowRepresentation (row) {
+    const d = new Date(row.updatedAt); 
+    const updatedAt = d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes();
+
+    return {
+      ...row, 
+      updatedAt
+    };
+  }
+
   fetchProjects () {
     list().then((response) => {
       const { lastRunAt, projects } = response;
-      this.setState({lastRunAt, projects});   
+      this.setState({
+        lastRunAt, 
+        projects: projects.map(this.rowRepresentation)
+      });
     }).catch(console.error);
   }
 
@@ -33,13 +46,21 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">IP Checker</h1>
-        </header>
-        <Table className="table" data={this.state.projects} />
-        <button className="btn btn-rescan" onClick={this.handleRescanProjects.bind(this)}>
-          do rescan!
-        </button>
+        <div className="app-inner">
+          <header className="App-header">
+            <div className="logo">
+              <img className="logo-img" src="pingster.png"/>
+              <h1 className="logo-text">Pingster</h1>
+            </div>
+          </header>
+          <Table className="table" data={this.state.projects} sortable={true}/>
+          <button className="btn btn-rescan" onClick={this.handleRescanProjects.bind(this)}>
+            rescan!
+          </button>
+          <div>
+            <p className="last-run">last run at {this.state.lastRunAt}</p>
+          </div>
+        </div>
       </div>
     );
   }

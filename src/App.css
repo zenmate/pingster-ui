@@ -1,3 +1,80 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body {
+  background: #ff9966; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #ff9966, #ff5e62); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ff9966, #ff5e62);
+  font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+  font-size: 45px;
+  font-weight: lighter;
+  margin-bottom: 0;
+}
+
 .App {
   text-align: center;
+  display: flex;  
+  align-items: center;
+  flex-direction: column;
+}
+
+.app-inner {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 800px;
+  background-color: white;
+  border-radius: 15px;
+  margin-top: 100px;
+  padding: 15px 35px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+}
+
+.btn {
+  background-color: #1abc9c;
+  color: #FFFFFF;
+  border: 0;
+  padding: 15px 25px;
+  font-size: 16px;
+  border-radius: 20px;
+  margin: 20px 0;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.table {
+  margin: 45px 0;
+}
+
+.table tr {
+  text-align: left;
+}
+
+.table td {
+  padding-right: 15px;
+  padding-top: 10px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 25px;
+}
+
+.logo-text {
+  margin-top: 0;
+  margin-left: 15px;
+}
+
+.logo-img {
+  width: 45px;
+  height: 45px;
+}
+
+.last-run {
+  font-size: 14px;
+  margin-top: 0;
 }

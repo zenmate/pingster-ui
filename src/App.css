@@ -78,3 +78,20 @@ h1 {
   font-size: 14px;
   margin-top: 0;
 }
+
+.status {
+  background-color: gray;
+  padding: 5px 7px;
+  font-size: 12px;
+  border-radius: 5px;
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.status-error {
+  background-color: #ff5e62;
+}
+
+.status-success {
+  background-color: #1abc9c;
+}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, unsafe } from 'reactable';
+import { Table, Tr, Td, unsafe } from 'reactable';
 import { list, rescan } from './api';
 import './App.css';
 
@@ -19,10 +19,12 @@ class App extends Component {
   rowRepresentation (row) {
     const d = new Date(row.updatedAt); 
     const updatedAt = d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes();
+    const status = <div className={'status status-' + row.status.toLowerCase()}>{row.status}</div>;
 
     return {
       ...row, 
-      updatedAt
+      updatedAt,
+      status
     };
   }
 
@@ -30,7 +32,7 @@ class App extends Component {
     list().then((response) => {
       const { lastRunAt, projects } = response;
       this.setState({
-        lastRunAt, 
+        lastRunAt,
         projects: projects.map(this.rowRepresentation)
       });
     }).catch(console.error);

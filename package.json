@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-scripts": "1.1.0"
+    "react": "15.0.0",
+    "react-dom": "15.0.0",
+    "react-scripts": "1.1.0",
+    "reactable": "^0.14.1",
+    "superagent": "^3.8.2"
   },
   "scripts": {
     "start": "react-scripts start",

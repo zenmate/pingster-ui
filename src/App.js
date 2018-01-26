@@ -22,9 +22,10 @@ class App extends Component {
     const status = <div className={'status status-' + row.status.toLowerCase()}>{row.status}</div>;
 
     return {
-      ...row, 
-      updatedAt,
-      status
+      'Status': status,
+      'Name': row.name,
+      'Repository': row.repo,
+      'Updated At:': updatedAt,
     };
   }
 

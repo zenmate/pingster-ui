@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Tr, Td, unsafe } from 'reactable';
+import { Table } from 'reactable';
 import Modal from 'react-modal';
 import { list, rescan, auth } from './api';
 import './App.css';
@@ -24,12 +24,15 @@ class App extends Component {
   }
 
   ShowMore (row) {
-    return <button className='btn btn-show-more' onClick={() => this.showMore(row)}>show</button>;
+    return (
+      <button className='btn btn-show-more' onClick={() => this.showMore(row)}>show</button>
+    );
   }
 
   Status (row) {
-    console.log(row)
-    return <div className={'status status-' + row.status.toLowerCase()}>{row.status}</div>;
+    return (
+      <div className={'status status-' + row.status.toLowerCase()}>{row.status}</div>
+    );
   }
 
   UpdatedAt (row) {
@@ -93,7 +96,7 @@ class App extends Component {
         <div className='app-inner'>
           <header className='App-header'>
             <div className='logo'>
-              <img className='logo-img' src='pingster.png' />
+              <img className='logo-img' src='pingster.png' alt='pingster' />
               <h1 className='logo-text'>Pingster</h1>
             </div>
           </header>

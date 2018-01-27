@@ -5,9 +5,11 @@
   "dependencies": {
     "react": "15.0.0",
     "react-dom": "15.0.0",
+    "react-modal": "^3.1.11",
     "react-scripts": "1.1.0",
     "reactable": "^0.14.1",
-    "superagent": "^3.8.2"
+    "superagent": "^3.8.2",
+    "query-string": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

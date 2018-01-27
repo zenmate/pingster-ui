@@ -1,8 +1,8 @@
 import request from 'superagent';
 import queryString from 'query-string';
-import { 
-  apiHost, 
-  appHost 
+import {
+  apiHost,
+  appHost
 } from '../config';
 
 let token = '';
@@ -19,6 +19,7 @@ const auth = () => {
 
     if (access_token) {
       localStorage.setItem('access_token', access_token);
+      token = access_token;
       return resolve();
     } else if (!token) {
       window.location = `${apiHost}/auth/github?redirect_uri=${appHost}`;

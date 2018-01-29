@@ -1,46 +1,57 @@
-import request from 'superagent';
 import queryString from 'query-string';
-import {
-  apiHost,
-  appHost
-} from '../config';
+import request from 'superagent';
+import { apiHost, appHost } from 'c0nfig';
 
-let token = '';
+let token;
 
-const buildResourceUrl = (resourceSlug) => {
+const buildResourceUrl = resourceSlug => {
   return `${apiHost}/${resourceSlug}`;
 }
 
 const auth = () => {
-  const { access_token } = queryString.parse(window.location.search);
-
-  return new Promise((resolve, reject) => {
-    token = localStorage.getItem('access_token');
+  return new Promise(resolve => {
+    const query = queryString.parse(window.location.search);
+    const { access_token } = query;
 
     if (access_token) {
-      localStorage.setItem('access_token', access_token);
       token = access_token;
-      return resolve();
-    } else if (!token) {
-      window.location = `${apiHost}/auth/github?redirect_uri=${appHost}`;
+
+      // save token to storage
+      localStorage.setItem('access_token', access_token);
+
+      // remove token from query
+      delete query.access_token;
+      window.location = `${window.location.pathname}?${queryString.stringify(query)}`;
+
+      return;
     }
 
-    return resolve();
+    // check if token already exists
+    token = localStorage.getItem('access_token');
+
+    if (!token) {
+      window.location = `${apiHost}/auth/github?redirect_uri=${appHost}`;
+      return;
+    }
+
+    resolve();
   });
 }
 
 const list = () => {
   const path = buildResourceUrl('list');
-  return request.get(path).query({ access_token: token }).then(r => r.body);
+
+  return request.get(path).query({access_token: token}).then(r => r.body);
 }
 
 const rescan = () => {
   const path = buildResourceUrl('rescan');
-  return request.post(path).query({ access_token: token }).then(r => r.body);
+
+  return request.post(path).query({access_token: token}).then(r => r.body);
 }
 
 export {
+  auth,
   list,
-  rescan,
-  auth
+  rescan
 }

@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { Table } from 'reactable';
-import Modal from 'react-modal';
-import { list, rescan, auth } from './api';
 import './App.css';
 
-class App extends Component {
+import moment from 'moment';
+import Modal from 'react-modal';
+import { Table } from 'reactable';
+import React, { Component } from 'react';
+import { list, rescan, auth } from './api';
 
+class App extends Component {
   constructor(props) {
     super(props);
 
@@ -21,26 +22,27 @@ class App extends Component {
     auth().then(() => {
       this.fetchProjects();
     });
+
+    Modal.setAppElement('#root');
   }
 
-  ShowMore (row) {
+  ShowMore(row) {
     return (
       <button className='btn btn-show-more' onClick={() => this.showMore(row)}>show</button>
     );
   }
 
-  Status (row) {
+  Status(row) {
     return (
       <div className={'status status-' + row.status.toLowerCase()}>{row.status}</div>
     );
   }
 
-  UpdatedAt (row) {
-    const d = new Date(row.updatedAt);
-    return d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes();
+  UpdatedAt(row) {
+    return moment(row.updatedAt).fromNow();
   }
 
-  rowRepresentation (row) {
+  rowRepresentation(row) {
     return {
       'Status': this.Status(row),
       'Name': row.name,
@@ -51,7 +53,7 @@ class App extends Component {
     };
   }
 
-  testRowRepresentation (row) {
+  testRowRepresentation(row) {
     return {
       'Success': row.success,
       'Name': row.name,
@@ -59,15 +61,16 @@ class App extends Component {
     }
   }
 
-  showMore (row) {
+  showMore(row) {
     row.testResults = row.testResults.map(this.testRowRepresentation.bind(this))
+
     this.setState({
       openProject: row,
       modalOpen: true
     });
   }
 
-  fetchProjects () {
+  fetchProjects() {
     list().then((response) => {
       const { lastRunAt, repos } = response;
       this.setState({
@@ -77,17 +80,23 @@ class App extends Component {
     }).catch(console.error);
   }
 
-  handleRescanProjects (e) {
+  handleRescanProjects(e) {
     e.preventDefault();
-    rescan()
-      .then(this.fetchProjects)
-      .catch(console.error);
+
+    rescan().then(() => {
+      this.fetchProjects();
+    })
+    .catch(console.error);
   }
 
-  onModalClose () {
+  onModalClose() {
     this.setState({
       modalOpen: false
     })
+  }
+
+  lastRescanMessage() {
+    return this.state.lastRunAt ? `Last rescan was ${moment(this.state.lastRunAt).fromNow()}` : '';
   }
 
   render() {
@@ -100,11 +109,20 @@ class App extends Component {
               <h1 className='logo-text'>Pingster</h1>
             </div>
           </header>
-          <Table className='table' data={this.state.projects} sortable={true} />
+
+          {this.state.projects.length ? (
+            <Table className='table' data={this.state.projects} sortable={true} />
+          ) : ''}
+
           <button className='btn btn-rescan' onClick={this.handleRescanProjects.bind(this)}>
-            rescan!
+            Rescan
           </button>
+
+          <div className='last-rescan'>
+            {this.lastRescanMessage()}
+          </div>
         </div>
+
         <Modal isOpen={this.state.modalOpen} onRequestClose={this.onModalClose.bind(this)}>
           <h2>Infos</h2>
           <label>Name:</label>

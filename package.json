@@ -1,20 +1,36 @@
 {
-  "name": "pingster-ui",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "react": "15.0.0",
-    "react-dom": "15.0.0",
-    "react-modal": "^3.1.11",
-    "react-scripts": "1.1.0",
-    "reactable": "^0.14.1",
-    "superagent": "^3.8.2",
-    "query-string": "^5.0.1"
-  },
+  "name": "@zenmate/pingster-ui",
+  "version": "1.0.0",
+  "description": "",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zenmate/pingster-ui.git"
+  },
+  "author": "ZenMate Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zenmate/pingster-ui/issues"
+  },
+  "homepage": "https://github.com/zenmate/pingster-ui#readme",
+  "engines": {
+    "node": ">=8.0.0",
+    "npm": ">=5.5.0"
+  },
+  "dependencies": {
+    "c0nfig": "^0.2.2",
+    "moment": "^2.20.1",
+    "query-string": "^5.0.1",
+    "react": "15.0.0",
+    "react-dom": "15.0.0",
+    "react-modal": "^3.1.11",
+    "react-scripts": "1.1.0",
+    "reactable": "^0.14.1",
+    "superagent": "^3.8.2"
   }
 }

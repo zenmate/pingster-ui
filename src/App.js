@@ -4,7 +4,13 @@ import moment from 'moment';
 import Modal from 'react-modal';
 import { Table } from 'reactable';
 import React, { Component } from 'react';
-import { list, rescan, auth } from './api';
+import {
+  list,
+  rescan,
+  auth,
+  logout,
+  login
+} from './api';
 
 const errorCoding = {
   1: 'is-informational',
@@ -26,10 +32,14 @@ class App extends Component {
         testResults: []
       },
       isRescanning: false,
-      modalOpen: false
+      modalOpen: false,
+      loggedIn: false
     };
 
-    auth().then(() => {
+    auth().then((loggedIn) => {
+      this.setState({
+        loggedIn
+      });
       this.fetchProjects();
     });
 
@@ -73,6 +83,40 @@ class App extends Component {
 
   UpdatedAt(row) {
     return moment(row.updatedAt).fromNow();
+  }
+
+  ViewLoggedIn() {
+    return (
+      <div>
+        <Table className='table' data={this.state.projects} sortable={true} />
+
+        <button className='btn btn-rescan is-creamy' onClick={this.handleRescanProjects.bind(this)}>
+          { this.state.isRescanning ? (
+            <span className='fa fa-cog fa-spin is-loading'></span>
+          ) : (
+            'Rescan'
+          )}
+        </button>
+
+        <div className='last-rescan'>
+          {this.lastRescanMessage()}
+        </div>
+
+        <a href="#" onClick={this.onLogout.bind(this)}>
+          <span className="btn-logout fa fa-sign-out" title="sign out"></span>
+        </a>
+      </div>
+    );
+  }
+
+  ViewLoggedOut() {
+    return (
+      <div>
+        <button className='btn' onClick={this.onLogin.bind(this)}>
+          Login with github<span className="fa fa-github"></span>
+        </button>
+      </div>
+    );
   }
 
   rowRepresentation(row) {
@@ -155,7 +199,20 @@ class App extends Component {
     return this.state.lastRunAt ? `Last rescan was ${moment(this.state.lastRunAt).fromNow()}` : '';
   }
 
+  onLogout() {
+    logout();
+    this.setState({
+      loggedIn: false
+    });
+  }
+
+  onLogin() {
+    login();
+  }
+
   render() {
+    const { loggedIn } = this.state;
+
     return (
       <div className='App'>
         <div className='app-inner'>
@@ -166,19 +223,8 @@ class App extends Component {
             </div>
           </header>
 
-          {this.state.projects.length ? (
-            <Table className='table' data={this.state.projects} sortable={true} />
-          ) : ''}
+          {loggedIn ? this.ViewLoggedIn() : this.ViewLoggedOut() }
 
-          <button className='btn btn-rescan is-creamy' onClick={this.handleRescanProjects.bind(this)}>
-            { this.state.isRescanning ? (
-              <span className='fa fa-cog fa-spin is-loading'></span>
-            ) : 'Rescan'}
-          </button>
-
-          <div className='last-rescan'>
-            {this.lastRescanMessage()}
-          </div>
         </div>
 
         <Modal isOpen={this.state.modalOpen} onRequestClose={this.onModalClose.bind(this)}>

@@ -13,29 +13,28 @@ const auth = () => {
     const query = queryString.parse(window.location.search);
     const { access_token } = query;
 
+    token = localStorage.getItem('access_token');
+
     if (access_token) {
       token = access_token;
 
-      // save token to storage
       localStorage.setItem('access_token', access_token);
 
-      // remove token from query
       delete query.access_token;
-      window.location = `${window.location.pathname}?${queryString.stringify(query)}`;
-
-      return;
+      window.location = `${window.location.pathname}${queryString.stringify(query)}`;
     }
 
-    // check if token already exists
-    token = localStorage.getItem('access_token');
-
-    if (!token) {
-      window.location = `${pingster_api}/auth/github?redirect_uri=${window.location.href}`;
-      return;
-    }
-
-    resolve();
+    resolve(!!token);
   });
+}
+
+const login = () => {
+  window.location = `${pingster_api}/auth/github?redirect_uri=${window.location.href}`;
+}
+
+const logout = () => {
+  token = null;
+  localStorage.removeItem('access_token');
 }
 
 const list = () => {
@@ -53,5 +52,7 @@ const rescan = () => {
 export {
   auth,
   list,
-  rescan
+  rescan,
+  logout,
+  login
 }

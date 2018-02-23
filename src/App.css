@@ -30,6 +30,7 @@ h2 {
 }
 
 .app-inner {
+  position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -50,6 +51,19 @@ h2 {
   border-radius: 5px;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.btn span {
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+.btn-logout {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  font-size: 24px;
+  color: #fe6d62;
 }
 
 .btn.is-creamy {
@@ -146,7 +160,8 @@ h2 {
 }
 
 .last-rescan {
-  margin: 10px auto;
+  margin: 15px auto;
+  margin-top: 25px;
 }
 
 .modal-box {

@@ -1,4 +1,6 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css');
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
 body {
   background: #ff9966; /* fallback for old browsers */
@@ -11,8 +13,13 @@ body {
 
 h1 {
   font-size: 45px;
-  font-weight: lighter;
+  font-weight: 400;
   margin-bottom: 0;
+}
+
+h2 {
+  font-size: 32px;
+  font-weight: 400;
 }
 
 .App {
@@ -41,9 +48,12 @@ h1 {
   padding: 15px 25px;
   font-size: 16px;
   border-radius: 5px;
-  margin: 10px 0;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.btn.is-creamy {
+  background-color: #ff9966 !important;
 }
 
 .btn-show-more {
@@ -55,18 +65,21 @@ h1 {
 .table {
   margin-top: 15px;
   margin-bottom: 15px;
-  border: 1px solid #d9dfe2;
   padding: 15px;
   border-radius: 15px;
+}
+
+.table tr th {
+  font-weight: bold;
 }
 
 .table tr {
   text-align: left;
 }
 
-.table td {
+.table td, .table th {
   padding-right: 15px;
-  padding-top: 10px;
+  padding-bottom: 15px;
 }
 
 .logo {
@@ -116,18 +129,68 @@ h1 {
 
 .ReactModal__Content {
   position: relative !important;
-  max-height: 500px;
+  max-height: 600px;
+  max-width: 600px;
   height: auto;
+  width: 100%;
   overflow-y: scroll;
+  padding: 35px !important;
 }
 
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-  margin-top: 15px;
+.is-loading {
+  font-size: 18px;
+}
+
+.btn-rescan {
+  width: 120px;
 }
 
 .last-rescan {
   margin: 10px auto;
+}
+
+.modal-box {
+  border: 1px solid #ebebeb;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.modal-box label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.modal-box-item {
+  margin-bottom: 15px;
+}
+
+.modal-box-item:last-child {
+  margin-bottom: 0;
+}
+
+.status.is-informational {
+  background-color: #ffc107;
+}
+
+.status.is-success {
+  background-color: #4caf50;
+}
+
+.status.is-redirection {
+  background-color: #e91e63;
+}
+
+.status.is-client-error {
+  background-color: #ff5722;
+}
+
+.status.is-server-error {
+  background-color: #f43636;
+}
+
+.status.is-error {
+  background-color: #f43636;
 }

@@ -6,7 +6,16 @@ import { Table } from 'reactable';
 import React, { Component } from 'react';
 import { list, rescan, auth } from './api';
 
+const errorCoding = {
+  1: 'is-informational',
+  2: 'is-success',
+  3: 'is-redirection',
+  4: 'is-client-error',
+  5: 'is-server-error'
+};
+
 class App extends Component {
+
   constructor(props) {
     super(props);
 
@@ -16,6 +25,7 @@ class App extends Component {
       openProject: {
         testResults: []
       },
+      isRescanning: false,
       modalOpen: false
     };
 
@@ -32,9 +42,32 @@ class App extends Component {
     );
   }
 
-  Status(row) {
+  Url(url) {
     return (
-      <div className={'status status-' + row.status.toLowerCase()}>{row.status}</div>
+      <a href={url}>{url}</a>
+    );
+  }
+
+  Status(status) {
+    let className = '';
+    let displayedStatus = status;
+
+    if (typeof status === 'string') {
+      className = `is-${status.toLowerCase()}`;
+    }
+
+    if (typeof status === 'number') {
+      const firstNumber = status.toString()[0];
+      className = firstNumber ? errorCoding[firstNumber] : '';
+    }
+
+    if (typeof status === 'boolean') {
+      className = status ? 'is-success' : 'is-error';
+      displayedStatus = status ? 'OK' : 'ERROR';
+    }
+
+    return (
+      <div className={'status ' + className}>{displayedStatus}</div>
     );
   }
 
@@ -44,49 +77,72 @@ class App extends Component {
 
   rowRepresentation(row) {
     return {
-      'Status': this.Status(row),
-      'Name': row.name,
-      'Language': row.language,
-      'Repository': row.fullName,
-      'Updated At:': this.UpdatedAt(row),
-      'More': this.ShowMore(row)
+      'status': this.Status(row.status),
+      'name': row.name,
+      'repository': row.fullName,
+      'updated:': this.UpdatedAt(row),
+      'more': this.ShowMore(row)
     };
   }
 
   testRowRepresentation(row) {
+    const { status } = row.response;
+
     return {
-      'Success': row.success,
-      'Name': row.name,
-      'Url': row.url
+      'status': this.Status(row.success),
+      'code': this.Status(status),
+      'name': row.name,
+      'url': this.Url(row.url)
     }
   }
 
   showMore(row) {
-    row.testResults = row.testResults.map(this.testRowRepresentation.bind(this))
+    const toDisplay = { ...row };
+
+    toDisplay.testResults = toDisplay.testResults.map(this.testRowRepresentation.bind(this));
 
     this.setState({
-      openProject: row,
+      openProject: toDisplay,
       modalOpen: true
     });
   }
 
   fetchProjects() {
-    list().then((response) => {
-      const { lastRunAt, repos } = response;
-      this.setState({
-        lastRunAt,
-        projects: repos.map(this.rowRepresentation.bind(this))
-      });
-    }).catch(console.error);
+    list()
+      .then((response) => {
+        const { lastRunAt, repos } = response;
+
+        this.setState({
+          lastRunAt,
+          projects: repos.map((r) => this.rowRepresentation(r))
+        });
+      })
+      .catch(console.error);
   }
 
   handleRescanProjects(e) {
     e.preventDefault();
 
-    rescan().then(() => {
-      this.fetchProjects();
-    })
-    .catch(console.error);
+    this.setState({
+      isRescanning: true
+    });
+
+    rescan()
+      .then(() => {
+        return this.fetchProjects();
+      })
+      .then(() => {
+        this.setState({
+          isRescanning: false
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+
+        this.setState({
+          isRescanning: false
+        });
+      });
   }
 
   onModalClose() {
@@ -114,8 +170,10 @@ class App extends Component {
             <Table className='table' data={this.state.projects} sortable={true} />
           ) : ''}
 
-          <button className='btn btn-rescan' onClick={this.handleRescanProjects.bind(this)}>
-            Rescan
+          <button className='btn btn-rescan is-creamy' onClick={this.handleRescanProjects.bind(this)}>
+            { this.state.isRescanning ? (
+              <span className='fa fa-cog fa-spin is-loading'></span>
+            ) : 'Rescan'}
           </button>
 
           <div className='last-rescan'>
@@ -124,19 +182,28 @@ class App extends Component {
         </div>
 
         <Modal isOpen={this.state.modalOpen} onRequestClose={this.onModalClose.bind(this)}>
-          <h2>Infos</h2>
-          <label>Name:</label>
-          { this.state.openProject.name }
-          <label>Default Branch:</label>
-          { this.state.openProject.defaultBranch }
-          <label>Description:</label>
-          { this.state.openProject.description }
-          <label>Language:</label>
-          { this.state.openProject.language }
-          <label>Full Name:</label>
-          { this.state.openProject.fullName }
-          <label>Tests:</label>
-          <Table className="table" data={this.state.openProject.testResults} />
+          <h2>{ this.state.openProject.name }</h2>
+          <div className="modal-box">
+            <div className="modal-box-item">
+              <label>Default Branch:</label>
+              <span>{ this.state.openProject.defaultBranch }</span>
+            </div>
+            <div className="modal-box-item">
+              <label>Description:</label>
+              <span>{ this.state.openProject.description }</span>
+            </div>
+            <div className="modal-box-item">
+              <label>Language:</label>
+              <span>{ this.state.openProject.language }</span>
+            </div>
+            <div className="modal-box-item">
+              <label>Full Name:</label>
+              <span>{ this.state.openProject.fullName }</span>
+            </div>
+          </div>
+          <div className="modal-box">
+            <Table className="table" data={this.state.openProject.testResults} />
+          </div>
         </Modal>
       </div>
     );

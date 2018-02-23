@@ -21,7 +21,7 @@ const auth = () => {
       localStorage.setItem('access_token', access_token);
 
       delete query.access_token;
-      window.location = `${window.location.pathname}${queryString.stringify(query)}`;
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
 
     resolve(!!token);

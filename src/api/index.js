@@ -1,11 +1,11 @@
 import queryString from 'query-string';
 import request from 'superagent';
-import { apiHost, appHost } from 'c0nfig';
+import { pingster_api } from 'c0nfig';
 
 let token;
 
 const buildResourceUrl = resourceSlug => {
-  return `${apiHost}/${resourceSlug}`;
+  return `${pingster_api}/${resourceSlug}`;
 }
 
 const auth = () => {
@@ -30,7 +30,7 @@ const auth = () => {
     token = localStorage.getItem('access_token');
 
     if (!token) {
-      window.location = `${apiHost}/auth/github?redirect_uri=${appHost}`;
+      window.location = `${pingster_api}/auth/github?redirect_uri=${window.location.href}`;
       return;
     }
 

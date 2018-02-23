@@ -1,4 +1,3 @@
 module.exports = {
-  apiHost: 'https://zenmate-pingster.herokuapp.com',
-  appHost: 'http://localhost:3000'
+	pingster_api: process.env.REACT_APP_PINGSTER_API
 };

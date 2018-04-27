@@ -10,11 +10,11 @@ Clone this repository and install all required dependencies, run the app locally
 git clone git@github.com:zenmate/pingster-ui.git
 cd pingster-ui
 npm i
-REACT_APP_PINGSTER_API='https://your-pinster-server.example.com' npm run
+REACT_APP_PINGSTER_API='https://your-pinster-server.example.com' npm run start
 ```
 
 ### Configuration
-Please make sure you define the environmental variable REACT_APP_PINGSTER_API with your pingster-server
+Please make sure you define the environmental variable `REACT_APP_PINGSTER_API` with your pingster-server
 URL. You can also adjust the configuration withing the [config](./config) folder.
 
 ### Deployment

@@ -102,9 +102,8 @@ class App extends Component {
           {this.lastRescanMessage()}
         </div>
 
-        <a href="#" onClick={this.onLogout.bind(this)}>
-          <span className="btn-logout fa fa-sign-out" title="sign out"></span>
-        </a>
+        <button onClick={this.onLogout.bind(this)} className="btn-logout fa fa-sign-out" title="sign out"/>
+
       </div>
     );
   }

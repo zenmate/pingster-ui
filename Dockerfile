@@ -1,6 +1,6 @@
 # docker run -p 5000:5000 -d zenmate/pingster-ui
 
-FROM node:9
+FROM node:alpine
 
 WORKDIR /usr/src/app
 

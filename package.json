@@ -17,7 +17,6 @@
   "bugs": {
     "url": "https://github.com/zenmate/pingster-ui/issues"
   },
-  "homepage": "https://github.com/zenmate/pingster-ui#readme",
   "engines": {
     "node": ">=8.0.0",
     "npm": ">=5.5.0"

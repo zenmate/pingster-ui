@@ -39,7 +39,6 @@ const logout = () => {
 
 const list = () => {
   const path = buildResourceUrl('list');
-
   return request.get(path).query({access_token: token}).then(r => r.body);
 }
 

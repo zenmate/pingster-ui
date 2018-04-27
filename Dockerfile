@@ -1,10 +1,10 @@
+# docker run -p 5000:5000 -d zenmate/pingster-ui
+
 FROM node:9
 
-#Pingster server api passed as optional argument
-ARG pingster_api=localhost:8080
-ARG on_port=3000
-
 WORKDIR /usr/src/app
+
+ARG pingster_api='http://localhost:8080'
 
 COPY package*.json ./
 
@@ -15,6 +15,6 @@ COPY . .
 
 RUN REACT_APP_PINGSTER_API=$pingster_api npm run build
 
-EXPOSE $on_port
+EXPOSE 5000
 
-CMD serve -s build -p $on_port
+CMD serve -s build

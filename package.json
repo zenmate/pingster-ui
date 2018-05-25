@@ -25,7 +25,7 @@
     "c0nfig": "^0.2.2",
     "moment": "^2.22.1",
     "query-string": "^6.1.0",
-    "react": "^15.6.2",
+    "react": "^16.4.0",
     "react-dom": "^15.6.2",
     "react-modal": "^3.4.4",
     "react-scripts": "^1.1.4",

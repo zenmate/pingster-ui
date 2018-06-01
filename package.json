@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "c0nfig": "^0.2.2",
-    "moment": "^2.22.1",
+    "moment": "^2.22.2",
     "query-string": "^6.1.0",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",

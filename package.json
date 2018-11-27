@@ -22,7 +22,7 @@
     "npm": ">=5.5.0"
   },
   "dependencies": {
-    "c0nfig": "^0.2.2",
+    "c0nfig": "^1.0.6",
     "moment": "^2.22.2",
     "query-string": "^6.2.0",
     "react": "^15.6.2",
